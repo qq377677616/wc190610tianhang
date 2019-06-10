@@ -1,0 +1,65 @@
+variables:
+  PROJ_NAME: 'wicc-bet-webui'
+  TAR_FILE: 'wicc-bet-webui.tar.gz'
+  ARTIFACTS_MASTER: '/tmp/artifacts/master'
+  ARTIFACTS_TEST: '/tmp/artifacts/test'
+  ARTIFACTS_PROD: '/tmp/artifacts/prod/wicc-game-webui'
+  WEB_DIR: '/home/devops/www/game-webui'
+  
+cache:
+  paths:
+    - node_modules/
+  
+stages:
+  - build
+
+build for dev master:
+  stage: build
+  script:
+    - whoami
+    - mkdir -p $ARTIFACTS_MASTER
+    - pwd
+    - yarn install --network-timeout 1000000
+    - yarn run build
+
+    #- tar czvf $ARTIFACTS_PROD/$TAR_FILE ./dist/*
+    - rsync -a --delete ./dist/ $WEB_DIR
+  only: 
+    - master
+  tags:
+    - wicc-dev
+
+build for dev test:
+  stage: build
+  script:
+    - whoami
+    - mkdir -p $ARTIFACTS_TEST
+    - pwd
+    - sed -i -e 's/allbet-dev.wiccdev.org:9090/test-allbet.wiccdev.org:9190/g' ./src/api/request.js
+    - yarn install --network-timeout 1000000
+    - yarn run build
+
+    #- tar czvf $ARTIFACTS_PROD/$TAR_FILE ./dist/*
+    - rsync -a --delete ./dist/ $WEB_DIR
+  only: 
+    - test
+  tags:
+    - wicc-test
+
+build for prod-xp:
+  stage: build
+  script:
+    - pwd
+    - whoami
+    - export ARTIFACTS_DIR='/opt/www/wicc-game-webui'
+    - mkdir -p $ARTIFACTS_DIR
+    - sed -i -e 's/http/https/g' ./src/api/request.js
+    # - sed -i -e 's/allbet-dev.wiccdev.org:9090/stg.wusd.bet/g' ./src/api/request.js
+    - sed -i -e 's/allbet-dev.wiccdev.org:9090/m.whatthebet.com/g' ./src/api/request.js
+    - yarn install
+    - yarn run build
+    - rsync -a --delete ./dist/ $ARTIFACTS_DIR
+  only:
+    - prod-xp
+  tags:
+    - jp-gw

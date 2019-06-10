@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="组_18858" data-name="组 18858" transform="translate(-317 -67)">
+    <g id="椭圆_5374" data-name="椭圆 5374" class="cls-1" transform="translate(317 67)">
+      <circle class="cls-2" cx="12" cy="12" r="12"/>
+      <circle class="cls-3" cx="12" cy="12" r="11.5"/>
+    </g>
+    <path id="联合_2034" data-name="联合 2034" class="cls-1" d="M4762-17803l-4,4,4-4-4-4,4,4,4-4-4,4,4,4Z" transform="translate(-4432.999 17882)"/>
+  </g>
+</svg>
